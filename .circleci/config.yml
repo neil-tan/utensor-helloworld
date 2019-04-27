@@ -10,6 +10,7 @@ jobs:
         command: |
           git clone https://github.com/uTensor/utensor_cgen.git
           cd utensor_cgen
+          git checkout develop
           python setup.py install
           cd ..
     - checkout
