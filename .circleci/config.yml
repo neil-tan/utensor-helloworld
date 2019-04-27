@@ -8,10 +8,10 @@ jobs:
     - run:
       name: Install the latest utensor-cli
       command: |
-        ßgit clone https://github.com/uTensor/utensor_cgen.git
-        ßcd utensor_cgen
-        ßpython setup.py install
-        ßcd ..
+        git clone https://github.com/uTensor/utensor_cgen.git
+        cd utensor_cgen
+        python setup.py install
+        cd ..
     - checkout
     - run:
         name: Generate uTensor Code
