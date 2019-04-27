@@ -4,25 +4,25 @@ jobs:
    # pre-built images: https://circleci.com/docs/2.0/circleci-images/
   docker:
         - image: mbartling/utensor-mbed-ci
-   steps:
-     - run:
-       name: Install the latest utensor-cli
-       command: |
-           git clone https://github.com/uTensor/utensor_cgen.git
-           cd utensor_cgen
-           python setup.py install
-           cd ..
-     - checkout
-     - run:
-         name: Generate uTensor Code
-         command: |
-           cd utensor-helloworld
-           utensor-cli convert tensorflow-models/mnist_model/deep_mlp.pb --output-nodes=y_pred
-           cd ..
-     - run:
-         name: Mbed Compile
-         command: |
-           cd utensor-helloworld
-           mbed root .
-           mbed deploy
-           mbed compile -m K64F -t GCC_ARM
+  steps:
+    - run:
+      name: Install the latest utensor-cli
+      command: |
+          git clone https://github.com/uTensor/utensor_cgen.git
+          cd utensor_cgen
+          python setup.py install
+          cd ..
+    - checkout
+    - run:
+        name: Generate uTensor Code
+        command: |
+          cd utensor-helloworld
+          utensor-cli convert tensorflow-models/mnist_model/deep_mlp.pb --output-nodes=y_pred
+          cd ..
+    - run:
+        name: Mbed Compile
+        command: |
+          cd utensor-helloworld
+          mbed root .
+          mbed deploy
+          mbed compile -m K64F -t GCC_ARM
