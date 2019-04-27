@@ -2,21 +2,27 @@ version: 2.0
 jobs:
  build:
    # pre-built images: https://circleci.com/docs/2.0/circleci-images/
-   docker:
-     - image: circleci/node:10-browsers
+  docker:
+        - image: mbartling/utensor-mbed-ci
    steps:
+     - run:
+       name: Install the latest utensor-cli
+       command: |
+           git clone https://github.com/uTensor/utensor_cgen.git
+           cd utensor_cgen
+           python setup.py install
+           cd ..
      - checkout
      - run:
-         name: The First Step
+         name: Generate uTensor Code
          command: |
-           echo 'Hello World!'
-           echo 'This is the delivery pipeline'
+           cd utensor-helloworld
+           utensor-cli convert tensorflow-models/mnist_model/deep_mlp.pb --output-nodes=y_pred
+           cd ..
      - run:
-         name: Code Has Arrived
+         name: Mbed Compile
          command: |
-           ls -al
-           echo '^^^That should look familiar^^^'
-     - run:
-         name: Running in a Unique Container
-         command: |
-           node -v
+           cd utensor-helloworld
+           mbed root .
+           mbed deploy
+           mbed compile -m K64F -t GCC_ARM
