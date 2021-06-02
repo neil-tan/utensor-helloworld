@@ -5,33 +5,35 @@
 
 using namespace uTensor;
 
-class My_model : public ModelInterface<1, 1> 
+class MyModel : public ModelInterface<1, 1> 
 {
  public:
   enum input_names : uint8_t { input_0 };
   enum output_names : uint8_t { output_0 };
-  My_model();
+  MyModel();
  protected:
   virtual void compute();
  private:
   // Operators
-  TflmSymQuantOps::FullyConnectedOperator<int8_t> op_FullyConnectedOperator_000;
+  ReferenceOperators::Conv2dOperator<int8_t> op_Conv2dOperator_000;
 
-  TflmSymQuantOps::DepthwiseSeparableConvOperator<int8_t> op_DepthwiseSeparableConvOperator_001;
+  TflmSymQuantOps::QuantizeOperator<int8_t, float> op_QuantizeOperator_001;
 
-  TflmSymQuantOps::QuantizeOperator<int8_t, float> op_QuantizeOperator_002;
+  TflmSymQuantOps::FullyConnectedOperator<int8_t> op_FullyConnectedOperator_002;
 
-  TflmSymQuantOps::FullyConnectedOperator<int8_t> op_FullyConnectedOperator_003;
+  TflmSymQuantOps::DequantizeOperator<float, int8_t> op_DequantizeOperator_003;
 
   ReferenceOperators::ReshapeOperator<int8_t> op_ReshapeOperator_004;
 
-  ReferenceOperators::MaxPoolOperator<int8_t> op_MaxPoolOperator_005;
+  ReferenceOperators::ReLUOperator<int8_t> op_ReLUOperator_005;
 
-  TflmSymQuantOps::DequantizeOperator<float, int8_t> op_DequantizeOperator_006;
+  ReferenceOperators::MaxPoolOperator<int8_t> op_MaxPoolOperator_006;
+
+  TflmSymQuantOps::FullyConnectedOperator<int8_t> op_FullyConnectedOperator_007;
 
   // memory allocators
-  localCircularArenaAllocator<4440, uint16_t> ram_allocator;
-  localCircularArenaAllocator<960, uint16_t> metadata_allocator;
+  localCircularArenaAllocator<5304, uint16_t> ram_allocator;
+  localCircularArenaAllocator<1024, uint16_t> metadata_allocator;
 };
 
 #endif // __MY_MODEL_INTERFACE_H
